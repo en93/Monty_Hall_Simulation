@@ -1,3 +1,10 @@
+# READ ME:
+#
+# This is an old version of the code I made a long time ago when I was first learning python.
+# I have chosen to keep this version in a subfolder as even as this version has numerous readability issues
+# it was still a learning experience at the time and therefore a step forward to where I am today.
+
+
 import random
 import sys
 
