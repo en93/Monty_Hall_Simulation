@@ -9,7 +9,7 @@ def main():
     number_of_runs = get_run_count()
     # todo is there a more elegant way of looping?
     for x in range(0, number_of_runs):
-        result = Game(Game.GameStrategy.keep)
+        result = Game(Game.GameStrategy.keep).run()
         if result: #todo bad name there
             wins += 1
         else:

@@ -9,3 +9,5 @@ class Door:
 class DoorStatus(Enum):
     EMPTY = 0
     PRIZE = 1
+
+    #todo move set getter func to this class
