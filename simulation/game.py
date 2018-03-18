@@ -24,22 +24,16 @@ class Game:
         # Create data structures
         door_chosen = doors_all[index_door_chosen]
         door_prize = doors_all[index_of_prize]
-        doors_closable = list(filter(lambda z: z.value == DoorStatus.EMPTY and z != door_prize, doors_all))
+        doors_openable = list(filter(lambda z: z != door_prize and z != door_chosen, doors_all))
         # print(len(doors_closable))
 
         # Open random door for player, remove door from list
-        index_close = random.randint(0, len(doors_closable) - 1)
-        doors_closable.pop(index_close)
-
-        # Use keep or change strategy, for now assume we are keeping
-        print('all: ')
-        for x in doors_all:
-            print(id(x, ' ',))
-        print('prize', id(door_prize))
-        print('chosen', id(door_chosen))
+        index_close = random.randint(0, len(doors_openable) - 1)
+        doors_openable.pop(index_close)
 
         # Big reveal
-        return door_chosen == door_prize
+        result = door_chosen == door_prize
+        return result
 
     class GameStrategy:
         change = 0
