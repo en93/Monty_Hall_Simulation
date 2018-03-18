@@ -14,22 +14,23 @@ class Game:
         # doors_all = [Door()] * self.DOOR_COUNT
         doors_all = []
         i = 0
-        while i < self.DOOR_COUNT: #todo do better
+        while i < self.DOOR_COUNT:  #todo do better
             doors_all.append(Door())
             i += 1
-        index_of_prize = random.randint(0, self.DOOR_COUNT - 1)
-        doors_all[index_of_prize].value = DoorStatus.PRIZE
         index_door_chosen = random.randint(0, self.DOOR_COUNT - 1)
+        index_of_prize = random.randint(0, self.DOOR_COUNT - 1)
 
         # Create data structures
+        doors_all[index_of_prize].value = DoorStatus.PRIZE
         door_chosen = doors_all[index_door_chosen]
         door_prize = doors_all[index_of_prize]
         doors_openable = list(filter(lambda z: z != door_prize and z != door_chosen, doors_all))
-        # print(len(doors_closable))
 
-        # Open random door for player, remove door from list
+        # Open random door for player, remove door from list, only needed if multiple iterations
         index_close = random.randint(0, len(doors_openable) - 1)
-        doors_openable.pop(index_close)
+        doors_openable.pop(index_close) #todo this is bad, still in other data structures
+
+        #If changing doors do so
 
         # Big reveal
         result = door_chosen == door_prize
