@@ -8,33 +8,52 @@ class Game:
 
     def __init__(self, strategy):
         self.strategy = strategy
+        self.doors_all = []
+        self.door_chosen = None
+        self.door_prize = None
+        self.doors_can_open = None
 
     def run(self):  # todo fix bug always wins
-        # Setup doors with randomly placed prize
-        # doors_all = [Door()] * self.DOOR_COUNT
-        doors_all = []
-        i = 0
-        while i < self.DOOR_COUNT:  #todo do better
-            doors_all.append(Door())
-            i += 1
-        index_door_chosen = random.randint(0, self.DOOR_COUNT - 1)
-        index_of_prize = random.randint(0, self.DOOR_COUNT - 1)
+        self.setup_doors()
 
-        # Create data structures
-        doors_all[index_of_prize].value = DoorStatus.PRIZE
-        door_chosen = doors_all[index_door_chosen]
-        door_prize = doors_all[index_of_prize]
-        doors_openable = list(filter(lambda z: z != door_prize and z != door_chosen, doors_all))
 
         # Open random door for player, remove door from list, only needed if multiple iterations
         index_close = random.randint(0, len(doors_openable) - 1)
-        doors_openable.pop(index_close) #todo this is bad, still in other data structures
+        doors_openable.pop(index_close) #todo this is bad, still in other data structures, create list of what i can use
 
         #If changing doors do so
 
         # Big reveal
         result = door_chosen == door_prize
         return result
+
+    def setup_doors(self):
+        self.doors_all = Game.make_doors()
+        self.door_prize = Game.place_prize(self.doors_all)
+        self.door_chosen = Game.choose_door(self.doors_all)
+        self.doors_can_open = list(filter(lambda z: z != self.door_prize and z != self.door_chosen, self.doors_all))
+
+    @staticmethod
+    def make_doors(self):
+        doors = []
+        i = 0
+        while i < self.DOOR_COUNT:  # todo do better
+            doors.append(Door())
+            i += 1
+        return doors
+
+    @staticmethod
+    def place_prize(door_list):
+        index_of_prize = random.randint(0, len(door_list) - 1)
+        door = door_list[index_of_prize]
+        door.value = DoorStatus.PRIZE
+        return door
+
+    @staticmethod
+    def choose_door(door_list):
+        index_door_chosen = random.randint(0, len(door_list) - 1)
+        door = door_list[index_door_chosen]
+        return door
 
     class GameStrategy:
         change = 0
