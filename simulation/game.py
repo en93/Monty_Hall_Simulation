@@ -15,29 +15,28 @@ class Game:
 
     def run(self):  # todo fix bug always wins
         self.setup_doors()
-
-
-        # Open random door for player, remove door from list, only needed if multiple iterations
-        index_close = random.randint(0, len(doors_openable) - 1)
-        doors_openable.pop(index_close) #todo this is bad, still in other data structures, create list of what i can use
-
-        #If changing doors do so
-
-        # Big reveal
-        result = door_chosen == door_prize
-        return result
+        self.open_empty_door()
+        return self.test_win_conditions()
 
     def setup_doors(self):
-        self.doors_all = Game.make_doors()
+        self.doors_all = Game.make_doors(Game.DOOR_COUNT)
         self.door_prize = Game.place_prize(self.doors_all)
         self.door_chosen = Game.choose_door(self.doors_all)
         self.doors_can_open = list(filter(lambda z: z != self.door_prize and z != self.door_chosen, self.doors_all))
 
+    def open_empty_door(self):
+        index_close = random.randint(0, len(self.doors_can_open) - 1)
+        self.doors_can_open.pop(index_close) #todo this is bad, still in other data structures, create list of what i can use
+
+    def test_win_conditions(self):
+        result = self.door_chosen == self.door_prize
+        return result
+
     @staticmethod
-    def make_doors(self):
+    def make_doors(count):
         doors = []
         i = 0
-        while i < self.DOOR_COUNT:  # todo do better
+        while i < count:  # todo do better
             doors.append(Door())
             i += 1
         return doors
