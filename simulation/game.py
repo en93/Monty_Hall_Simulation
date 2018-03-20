@@ -42,10 +42,8 @@ class Game:
     @staticmethod
     def make_doors(count):
         doors = []
-        i = 0
-        while i < count:
+        for x in range(count):
             doors.append(Door())
-            i += 1
         return doors
 
     @staticmethod
@@ -56,5 +54,5 @@ class Game:
         return door
 
     class Strategy:
-        change = 0
-        keep = 1
+        change = "change_door"
+        keep = "keep_door"
