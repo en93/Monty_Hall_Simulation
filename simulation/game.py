@@ -4,8 +4,10 @@ from simulation.door import Door, DoorStatus
 
 
 class Game:
-    def __init__(self, strategy):
+    def __init__(self, strategy, doors_count=3, open_count=1):
         self.strategy = strategy
+        self.doors_count = doors_count
+        self.open_count = open_count
         self.doors_all = []
         self.door_chosen = None
         self.door_prize = None
@@ -14,15 +16,19 @@ class Game:
     def run(self):
         self.setup_doors()
         self.choose_door()
+        # Note the process of opening doors still occurs in the keep scenario.
+        # This was skipped as an optimization as it had no bearing on the outcome
         if self.strategy == Game.Strategy.change:
-            self.open_empty_door()
-            self.choose_door()
+            for x in range(self.open_count):
+                self.open_empty_door()
+                self.choose_door()
         return self.test_win_conditions()
 
     def setup_doors(self):
-        self.doors_all = Game.make_doors(3)
+        self.doors_all = Game.make_doors(self.doors_count)
         self.door_prize = Game.place_prize(self.doors_all)
 
+    # todo can i re-choose a door i went away from earlier?
     def choose_door(self):
         self.door_chosen_previous = self.door_chosen
         doors_can_choose = list(filter(lambda z: z != self.door_chosen_previous, self.doors_all))

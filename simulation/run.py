@@ -3,6 +3,7 @@ from simulation.sample_handler import get_samples
 from simulation.game import Game
 
 
+# todo should i be not providing default values here
 def main():
     times_to_run = int(sys.argv[1]) if len(sys.argv) > 1 else 1000
     doors_count = int(sys.argv[2]) if len(sys.argv) > 2 else 3

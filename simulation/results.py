@@ -11,4 +11,5 @@ class Results:
             self.losses += 1
 
     def __str__(self):
-        return "%s\n\t %s: %d, %s: %d" % (self.strategy, "Won", self.wins, "Lost", self.losses)
+        return "%s\n\t %s: %d, %s: %d, %s: %s" % (self.strategy, "Won", self.wins, "Lost", self.losses, "Percentage", self.wins/(self.wins+self.losses)*100)
+    
