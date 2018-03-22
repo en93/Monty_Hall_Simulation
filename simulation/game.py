@@ -1,7 +1,7 @@
 # Represents a single play of the game that is won or lost
 import random
 from enum import Enum, auto
-from simulation.door import Door, DoorStatus
+from simulation.door import Door
 
 
 class Game:
@@ -32,18 +32,18 @@ class Game:
     # Note that a door can be chosen again later as the script only the most recent door
     def choose_door(self):
         self.door_chosen_previous = self.door_chosen
-        doors_can_choose = list(filter(lambda z: z != self.door_chosen_previous, self.doors_all))
+        doors_can_choose = list(filter(lambda z: z is not self.door_chosen_previous, self.doors_all))
         index_door_chosen = random.randint(0, len(doors_can_choose) - 1)
         self.door_chosen = doors_can_choose[index_door_chosen]
 
     def open_empty_door(self):
-        doors_can_open = list(filter(lambda z: z != self.door_prize and z != self.door_chosen, self.doors_all))
+        doors_can_open = list(filter(lambda z: z is not self.door_prize and z is not self.door_chosen, self.doors_all))
         index_close = random.randint(0, len(doors_can_open) - 1)
         door = doors_can_open[index_close]
         self.doors_all.remove(door)
 
     def test_win_conditions(self):
-        result = self.door_chosen == self.door_prize
+        result = self.door_chosen is self.door_prize
         return result
 
     @staticmethod
@@ -57,7 +57,7 @@ class Game:
     def place_prize(door_list):
         index_of_prize = random.randint(0, len(door_list) - 1)
         door = door_list[index_of_prize]
-        door.value = DoorStatus.PRIZE
+        door.value = Door.DoorStatus.PRIZE
         return door
 
     class Strategy(Enum):
