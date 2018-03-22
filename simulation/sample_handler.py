@@ -1,4 +1,4 @@
-# Entry point for program execution, handles user input and starts simulations todo get up to date
+# Handles iteration of sampling using the Game class
 from simulation.game import Game
 from simulation.results import Results
 

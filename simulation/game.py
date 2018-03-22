@@ -1,5 +1,6 @@
 # Represents a single play of the game that is won or lost
 import random
+from enum import Enum, auto
 from simulation.door import Door, DoorStatus
 
 
@@ -28,7 +29,7 @@ class Game:
         self.doors_all = Game.make_doors(self.doors_count)
         self.door_prize = Game.place_prize(self.doors_all)
 
-    # todo can i re-choose a door i went away from earlier?
+    # Note that a door can be chosen again later as the script only the most recent door
     def choose_door(self):
         self.door_chosen_previous = self.door_chosen
         doors_can_choose = list(filter(lambda z: z != self.door_chosen_previous, self.doors_all))
@@ -59,6 +60,6 @@ class Game:
         door.value = DoorStatus.PRIZE
         return door
 
-    class Strategy:
-        change = "change_door"
-        keep = "keep_door"
+    class Strategy(Enum):
+        change = auto()
+        keep = auto()

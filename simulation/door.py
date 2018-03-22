@@ -1,5 +1,4 @@
-from enum import Enum
-
+from enum import Enum, auto
 
 class Door:
     def __init__(self):
@@ -7,7 +6,7 @@ class Door:
 
 
 class DoorStatus(Enum):
-    EMPTY = 0
-    PRIZE = 1
+    EMPTY = auto()
+    PRIZE = auto()
 
     #todo move set getter func to this class
