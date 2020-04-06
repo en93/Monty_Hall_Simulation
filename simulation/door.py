@@ -1,11 +1,8 @@
 # Model used to represent a door
-from enum import Enum, auto
+from simulation.door_status import DoorStatus
 
 
 class Door:
     def __init__(self):
-        self.value = Door.DoorStatus.EMPTY
-
-    class DoorStatus(Enum):
-        EMPTY = auto()
-        PRIZE = auto()
+        #Set initial value
+        self.value = DoorStatus.EMPTY

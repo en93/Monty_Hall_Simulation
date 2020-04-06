@@ -1,7 +1,9 @@
 # Represents a single play of the game that is won or lost
 import random
-from enum import Enum, auto
 from simulation.door import Door
+from simulation.strategy import Strategy
+from simulation.door_status import DoorStatus
+from simulation.game_outcome import Outcome
 
 
 class Game:
@@ -9,25 +11,20 @@ class Game:
         self.strategy = strategy
         self.doors_count = doors_count
         self.open_count = open_count
-        self.doors_all = []
+        self.doors_all = Game.make_doors(self.doors_count)
         self.door_chosen = None
-        self.door_prize = None
+        self.door_prize = Game.place_prize(self.doors_all)
         self.door_chosen_previous = None
-
-    def run(self):
-        self.setup_doors()
         self.choose_door()
+
+    def run(self):        
         # Note the process of opening doors still occurs in the keep scenario.
         # This was skipped as an optimization as it had no bearing on the outcome
-        if self.strategy == Game.Strategy.change:
-            for x in range(self.open_count):
+        if self.strategy == Strategy.change:
+            for _ in range(self.open_count):
                 self.open_empty_door()
                 self.choose_door()
-        return self.test_win_conditions()
-
-    def setup_doors(self):
-        self.doors_all = Game.make_doors(self.doors_count)
-        self.door_prize = Game.place_prize(self.doors_all)
+        return Outcome.WON if (self.door_chosen is self.door_prize) else Outcome.LOST 
 
     # Note that a door can be chosen again later as the script only the most recent door
     def choose_door(self):
@@ -42,14 +39,10 @@ class Game:
         door = doors_can_open[index_close]
         self.doors_all.remove(door)
 
-    def test_win_conditions(self):
-        result = self.door_chosen is self.door_prize
-        return result
-
     @staticmethod
     def make_doors(count):
         doors = []
-        for x in range(count):
+        for _ in range(count):
             doors.append(Door())
         return doors
 
@@ -57,9 +50,5 @@ class Game:
     def place_prize(door_list):
         index_of_prize = random.randint(0, len(door_list) - 1)
         door = door_list[index_of_prize]
-        door.value = Door.DoorStatus.PRIZE
+        door.value = DoorStatus.PRIZE
         return door
-
-    class Strategy(Enum):
-        change = auto()
-        keep = auto()
